@@ -7,11 +7,6 @@ import mysql.connector
 import datetime
 import asyncio
 
-#------things to do
-#1:there should ba a user table(), watched table, 
-# watching table, interested table, and on hold table
-#2: lots of exception handling
-#3: make the messages into embeds
 
 #---------sql-------
 mydb = mysql.connector.connect(
