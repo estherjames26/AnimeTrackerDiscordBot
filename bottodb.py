@@ -97,13 +97,13 @@ async def on_message(message):
             await message.channel.send("okey")
 
 #----------------------------------insert----------------------------------------------------------
-        if command == "insert":
+        if command == "insert" or command == "i":
             # SQL insertion commands for the tables
             insertionWatched = f"INSERT INTO watched (name, date_watched, rating, username) VALUES (%s, %s, %s, %s)"
             insertionWatching=f"INSERT INTO watching (name, username, episode) VALUES (%s, %s, %s)"
             insertionWant_to_watch= f"INSERT INTO want_to_watch (name, username) VALUES (%s, %s)"
             # if table is watched user is asked to enter in the name of anime, the day it was watched, and a rating between 0 and 10
-            if table=="watched":
+            if table=="watched" or table=="w1":
                 await message.channel.send("enter the name of the anime")
                 anime_name = await get_user_response(message.channel)
                 if not anime_name:
@@ -163,7 +163,7 @@ async def on_message(message):
                 mydb.commit()
                 await message.channel.send("done")
 #-----------------------------------------
-            elif table == "want_to_watch":
+            elif table == "want_to_watch" or table=="w3":
                 await message.channel.send("enter the name of the anime")
                 anime_name = await get_user_response(message.channel)
                 if not anime_name:
@@ -177,34 +177,30 @@ async def on_message(message):
                 await message.channel.send("Invalid")
                 return
 
-
-            
 #--------------------------------------------------------------------------------------------
         #outputs all the results in a specific table on discord
-        elif command == "view":
+        elif command == "view" or command == "v" : 
             viewWatched = "SELECT name, date_watched, rating FROM watched WHERE username = %s"
             viewWatching="SELECT name, episode FROM watching WHERE username = %s"
             viewWant_to_watch="SELECT name FROM want_to_watch WHERE username = %s"
             
-            if table=="watching":
+            if table=="watching" or table=="w2":
                 cursor.execute(viewWatching,[user])
                 for x in cursor:
                     await message.channel.send(x)
-            elif table == "watched":
+            elif table == "watched" or table=="w1":
                 cursor.execute(viewWatched,[user])
                 for x in cursor:
                     await message.channel.send(x)
-            elif table =="want_to_watch":
+            elif table =="want_to_watch"or table=="w3":
                 cursor.execute(viewWant_to_watch,[user])
                 for x in cursor:
                     await message.channel.send(x)
             else:
                 await message.channel.send("invalid command")
 
-
-                
 #--------------------------------------------------------------------------------------------
-        elif command == "delete":
+        elif command == "delete" or command == "d":
             # delete user from database completely
             # delete rows from a table
             if table== "all":
@@ -222,7 +218,7 @@ async def on_message(message):
                 else:
                     await message.channel.send("Operation cancelled")
                     return
-            elif table=="watching":
+            elif table=="watching" or table=="w2":
                 # asks user if they want to delete the whole table or one entry for watching
                 await message.channel.send("everything(all) or one entry(one)")
                 opt=await get_user_response(message.channel)
@@ -236,7 +232,7 @@ async def on_message(message):
                     await message.channel.send("Operation cancelled")
                     return
                
-            elif table =="watched":
+            elif table =="watched"or table=="w1":
                 # asks user if they want to delete the whole table or one entry for watched
                 await message.channel.send("everything(all) or one entry(one)")
                 opt=await get_user_response(message.channel)
@@ -268,7 +264,7 @@ async def on_message(message):
         
     if message.content == "!help":
         #prints a message that like has all the commands and table names
-        await message.channel.send("!p\n**commands**\nview, delete, insert\n**tables**\nwatched, watching, want_to_watch")
+        await message.channel.send("!p\n**commands**\nview(v), delete(d), insert(i)\n**tables**\nwatched(w1), watching(w2), want_to_watch(w3)")
         return
 
 # runs the bot
