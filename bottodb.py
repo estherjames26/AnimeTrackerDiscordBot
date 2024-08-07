@@ -69,8 +69,8 @@ async def on_message(message):
         command = msg[1]
         table = msg[2]
         # Define lists of valid commands and tables
-        clist = ["view", "insert", "delete", "edit"]
-        tlist = ["watched", "watching", "want_to_watch", "all"]
+        clist = ["view", "insert", "delete", "edit","v","i","d","e"]
+        tlist = ["watched", "watching", "want_to_watch", "all","w1","w2","w3"]
         # Get the user ID from the message
         user = message.author.id
         # SQL command to insert a new user if not exists
